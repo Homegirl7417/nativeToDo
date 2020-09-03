@@ -20,6 +20,8 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen'; 
+
+import { v1 as uuidv1 } from "uuid";
 const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
