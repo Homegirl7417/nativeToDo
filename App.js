@@ -13,14 +13,6 @@ import {
   ShadowPropTypesIOS
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen'; 
-
 import { v1 as uuidv1 } from "uuid";
 const { height, width } = Dimensions.get("window");
 
@@ -28,6 +20,7 @@ export default class App extends React.Component {
   state = {
     newToDo: "",
     loadedToDos: false,
+    toDos: {}
   }
   componentDidMount() {
     this._loadToDos();
@@ -35,6 +28,7 @@ export default class App extends React.Component {
   // if (!loadedToDos) return 
   // expo의 AppLoading을 대체할 수 있는 기능이 뭘까
   render() {
+    const { newToDo, loadedToDos, toDos } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
