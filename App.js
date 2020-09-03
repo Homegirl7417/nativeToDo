@@ -38,35 +38,43 @@ export default class App extends React.Component {
           <TextInput 
             style={styles.input} 
             placeholder={"New To Do"}
+            value={newToDo}
             placeholderTextColor={"#999"}
-            onChange={this._controNewToDo}
+            onChangeText={this._crontollNewToDo}
             returnKeyType={"done"}
             autoCorrect={false} // 자동완성
             onSubmitEditing={this._addToDo} // 완료 눌렀을 때
           />
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map(toDo => (<ToDo key={toDo.id} {...toDo} />))}
+            {Object.values(toDos).map(toDo => (
+              <ToDo 
+                key={toDo.id}
+                deleteToDo={this._deleteToDo}
+                uncompleteToDo={this._uncompleteToDo}
+                completeToDo={this._completeToDo}
+                {...toDo}
+              />
+            ))}
           </ScrollView>           
         </View>
       </View>
     );
   }
-  _controNewToDo = text => {
+  _crontollNewToDo = text => {
     this.setState({
       newToDo: text
     })
   }
+
   _loadToDos = () => {
     this.setState({
       loadedToDos: true
     })
   }
+
   _addToDo = () => {
     const { newToDo } = this.state;
     if (newToDo !== "") {
-      this.setState({
-        newToDo: ""
-      });
       this.setState(prevState => {
         const ID = uuidv1();
         const newToDoObject = {
@@ -84,14 +92,53 @@ export default class App extends React.Component {
             ...prevState.toDos,
             ...newToDoObject
           }
-        }
+        };
         return { ...newState };
       });
-      
     }
   }
+  _deleteToDo = (id) => {
+    this.setState(prevState => {
+      const toDos = prevState.toDos;
+      delete toDos[id];
+      const newState = {
+        ...prevState,
+        ...toDos
+      };
+      return { ...newState };
+    })
+  }
+  _uncompleteToDo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id] : {
+            ...prevState.toDos[id],
+            isCompleted: false
+          }
+        }
+      };
+      return { ...newState };
+    })
+  }
+  _completeToDo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id] : {
+            ...prevState.toDos[id],
+            isCompleted: true
+          }
+        }
+      };
+      return { ...newState };
+    })
+  }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -119,7 +166,6 @@ const styles = StyleSheet.create({
         shadowOffset: {
           height: -1,
           width: 0
-
         }
       },
       android: {

@@ -5,29 +5,31 @@ import {
     TextInput,
     TouchableOpacity, 
     StyleSheet,
-    Dimensions,
-    Alert
+    Dimensions
 } from 'react-native';
-
+import PropTypes from "prop-types";
 const { width, height } = Dimensions.get("window");
 
 export default class ToDo extends React.Component {
-    state = {
-        isEditing: false,
-        isCompleted: false,
-        toDoValue: ""
+    constructor(props){
+        super(props);
+        this.state = { isEditing: false, toDoValue: props.text };
     }
-    componentDidMount() {
-        Alert.alert("this.props : ", this.props.text);
-        console.log("this.props: ", this.props.text);
+    static propTypes = {
+        text: PropTypes.string.isRequired,
+        isCompleted: PropTypes.string.isRequired,
+        deleteToDo: PropTypes.func.isRequired,
+        uncompleteToDo: PropTypes.func.isRequired,
+        completeToDo: PropTypes.func.isRequired,
+        id: PropTypes.string.isRequired
     }
     render() {
-        const { isCompleted, isEditing, toDoValue } = this.state;
-        const { text, id, deleteToDo } = this.props;
+        const { isEditing, toDoValue } = this.state;
+        const { text, id, deleteToDo, isCompleted } = this.props;
         return(
             <View style={styles.container}>
                 <View style={styles.column}>
-                    <TouchableOpacity onPress={this._toggleToDo}>
+                    <TouchableOpacity onPress={this._toggleComplete}>
                         <View style={[
                             styles.circle,
                             isCompleted ? styles.completedCircle : styles.uncompletedCircle
@@ -43,7 +45,7 @@ export default class ToDo extends React.Component {
                                 ]} 
                                 value={toDoValue} 
                                 multiline={true}
-                                onChange={this._controllInput}
+                                onChangeText={this._controllInput}
                                 returnKeyType={"done"}
                                 onBlur={this._finishEditing}
                             />
@@ -61,7 +63,7 @@ export default class ToDo extends React.Component {
                 </View>
                 {isEditing ? (
                     <View style={styles.actions}>
-                        <TouchableOpacity onPress={this._finishEditing}>
+                        <TouchableOpacity onPressOut={this._finishEditing}>
                             <View style={styles.actionContainer}>
                                 <Text style={styles.actionText}>✅</Text>
                             </View>
@@ -69,12 +71,12 @@ export default class ToDo extends React.Component {
                     </View>
                 ) : (
                     <View style={styles.actions}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPressOut={this._startEdition}>
                             <View style={styles.actionContainer}>
-                                <Text style={styles.actionText} onPress={this._startEdition}>✏️</Text>
+                                <Text style={styles.actionText}>✏️</Text>
                             </View>
                         </TouchableOpacity>                            
-                        <TouchableOpacity>
+                        <TouchableOpacity onPressOut={() => deleteToDo(id)}>
                             <View style={styles.actionContainer}>
                                 <Text style={styles.actionText}>❌</Text>
                             </View>
@@ -84,18 +86,14 @@ export default class ToDo extends React.Component {
             </View>
         );
     }
-    _toggleToDo = () => {
-        this.setState(prevState => {
-            return ({
-                isCompleted: !prevState.isCompleted
-            });
-        })
+    _toggleComplete = () => {
+        const { isCompleted, uncompleteToDo, completeToDo, id } = this.props;
+        return (isCompleted ? uncompleteToDo(id) : completeToDo(id));
     }
     _startEdition = () => {
         const { text } = this.props;
         this.setState({
-            isEditing: true,
-            toDoValue: text
+            isEditing: true
         })
     }
     _finishEditing = () => {
