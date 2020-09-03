@@ -13,12 +13,13 @@ import {
   ShadowPropTypesIOS
 } from 'react-native';
 
-import { v1 as uuidv1 } from "uuid";
+import 'react-native-get-random-values';
+import uuidv1 from "uuid/v1";
 const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
-    newToDo: "",
+    newToDo: "hi",
     loadedToDos: false,
     toDos: {}
   }
@@ -45,7 +46,7 @@ export default class App extends React.Component {
               onSubmitEditing={this._addToDo} // 완료 눌렀을 때
             />
           <ScrollView contentContainerStyle={styles.toDos}>
-            <ToDo text={"hi"}/>
+            {Object.values(toDos).map(toDo => <ToDo key={toDo.id} {...toDo} />)}
           </ScrollView>            
           </View>
         </View>

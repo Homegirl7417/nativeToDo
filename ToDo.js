@@ -8,6 +8,7 @@ import {
     Dimensions
 } from 'react-native';
 
+import 'react-native-get-random-values';
 const { width, height } = Dimensions.get("window");
 
 export default class ToDo extends React.Component {
