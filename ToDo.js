@@ -5,10 +5,10 @@ import {
     TextInput,
     TouchableOpacity, 
     StyleSheet,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 
-import 'react-native-get-random-values';
 const { width, height } = Dimensions.get("window");
 
 export default class ToDo extends React.Component {
@@ -17,10 +17,13 @@ export default class ToDo extends React.Component {
         isCompleted: false,
         toDoValue: ""
     }
-
+    componentDidMount() {
+        Alert.alert("this.props : ", this.props.text);
+        console.log("this.props: ", this.props.text);
+    }
     render() {
         const { isCompleted, isEditing, toDoValue } = this.state;
-        const { text } = this.props;
+        const { text, id, deleteToDo } = this.props;
         return(
             <View style={styles.container}>
                 <View style={styles.column}>

@@ -14,12 +14,12 @@ import {
 } from 'react-native';
 
 import 'react-native-get-random-values';
-import uuidv1 from "uuid/v1";
+import { v1 as uuidv1 } from "uuid";
 const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
-    newToDo: "hi",
+    newToDo: "",
     loadedToDos: false,
     toDos: {}
   }
@@ -34,21 +34,19 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text style={styles.title}>Kawai To Do</Text>
-        <View>
-          <View style={styles.card}>
-            <TextInput 
-              style={styles.input} 
-              placeholder={"New To Do"}
-              placeholderTextColor={"#999"}
-              onChange={this._controNewToDo}
-              returnKeyType={"done"}
-              autoCorrect={false} // 자동완성
-              onSubmitEditing={this._addToDo} // 완료 눌렀을 때
-            />
+        <View style={styles.card}>
+          <TextInput 
+            style={styles.input} 
+            placeholder={"New To Do"}
+            placeholderTextColor={"#999"}
+            onChange={this._controNewToDo}
+            returnKeyType={"done"}
+            autoCorrect={false} // 자동완성
+            onSubmitEditing={this._addToDo} // 완료 눌렀을 때
+          />
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map(toDo => <ToDo key={toDo.id} {...toDo} />)}
-          </ScrollView>            
-          </View>
+            {Object.values(toDos).map(toDo => (<ToDo key={toDo.id} {...toDo} />))}
+          </ScrollView>           
         </View>
       </View>
     );
