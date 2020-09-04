@@ -75,7 +75,7 @@ export default class App extends React.Component {
       const parsedToDos = JSON.parse(toDos);
       this.setState({
         loadedToDos: true,
-        toDos: parsedToDos
+        toDos: parsedToDos || {} // parsedToDos가 null인 경우 대비
       })
     } catch(err) {
       console.error(err);
