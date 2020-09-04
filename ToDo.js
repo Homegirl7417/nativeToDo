@@ -31,10 +31,12 @@ export default class ToDo extends React.Component {
             <View style={styles.container}>
                 <View style={styles.column}>
                     <TouchableOpacity onPress={this._toggleComplete}>
-                        <View style={[
-                            styles.circle,
-                            isCompleted ? styles.completedCircle : styles.uncompletedCircle
-                        ]}/>
+                        <View 
+                            style={[
+                                styles.circle,
+                                isCompleted ? styles.completedCircle : styles.uncompletedCircle
+                            ]}
+                        />
                     </TouchableOpacity>
                     {
                         isEditing ? (
