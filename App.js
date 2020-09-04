@@ -10,9 +10,9 @@ import {
   Dimensions,
   TextInput,
   Platform,
-  AsyncStorage
+  // AsyncStorage
 } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from "uuid";
 const { height, width } = Dimensions.get("window");
