@@ -73,7 +73,6 @@ export default class App extends React.Component {
     try {
       const toDos = await AsyncStorage.getItem("toDos"); // AsyncStorage 에서 얻는 정보는 오브젝트가 아니라 오브젝로 변환 필요.
       const parsedToDos = JSON.parse(toDos);
-      console.log("load toDos : ", parsedToDos);
       this.setState({
         loadedToDos: true,
         toDos: parsedToDos
@@ -167,7 +166,6 @@ export default class App extends React.Component {
     });
   };
   _saveToDos = (newToDos) => {
-    console.log("newToDos:",JSON.stringify(newToDos));
     const saveToDos = AsyncStorage.setItem("toDos",JSON.stringify(newToDos));
   }
 }
