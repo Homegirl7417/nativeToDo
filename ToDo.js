@@ -17,15 +17,16 @@ export default class ToDo extends React.Component {
     }
     static propTypes = {
         text: PropTypes.string.isRequired,
-        isCompleted: PropTypes.string.isRequired,
+        isCompleted: PropTypes.bool.isRequired,
         deleteToDo: PropTypes.func.isRequired,
         uncompleteToDo: PropTypes.func.isRequired,
         completeToDo: PropTypes.func.isRequired,
+        updateToDo: PropTypes.func.isRequired,
         id: PropTypes.string.isRequired
     }
     render() {
         const { isEditing, toDoValue } = this.state;
-        const { text, id, deleteToDo, isCompleted } = this.props;
+        const { text, id, deleteToDo, isCompleted, updateToDo } = this.props;
         return(
             <View style={styles.container}>
                 <View style={styles.column}>
@@ -97,6 +98,9 @@ export default class ToDo extends React.Component {
         })
     }
     _finishEditing = () => {
+        const { toDoValue } = this.state;
+        const { id, updateToDo } = this.props;
+        updateToDo(id, toDoValue);
         this.setState({
             isEditing: false
         })
