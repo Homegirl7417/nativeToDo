@@ -46,16 +46,18 @@ export default class App extends React.Component {
             onSubmitEditing={this._addToDo} // 완료 눌렀을 때
           />
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map(toDo => (
-              <ToDo 
-                key={toDo.id}
-                deleteToDo={this._deleteToDo}
-                uncompleteToDo={this._uncompleteToDo}
-                completeToDo={this._completeToDo}
-                updateToDo={this._updateToDo}
-                {...toDo}
-              />
-            ))}
+            {Object.values(toDos)
+              .reverse()
+              .map(toDo => (
+                <ToDo 
+                  key={toDo.id}
+                  deleteToDo={this._deleteToDo}
+                  uncompleteToDo={this._uncompleteToDo}
+                  completeToDo={this._completeToDo}
+                  updateToDo={this._updateToDo}
+                  {...toDo}
+                />
+              ))}
           </ScrollView>           
         </View>
       </View>
@@ -67,10 +69,18 @@ export default class App extends React.Component {
     })
   }
 
-  _loadToDos = () => {
-    this.setState({
-      loadedToDos: true
-    })
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("toDos"); // AsyncStorage 에서 얻는 정보는 오브젝트가 아니라 오브젝로 변환 필요.
+      const parsedToDos = JSON.parse(toDos);
+      console.log("load toDos : ", parsedToDos);
+      this.setState({
+        loadedToDos: true,
+        toDos: parsedToDos
+      })
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   _addToDo = () => {
