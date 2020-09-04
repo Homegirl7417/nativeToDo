@@ -43,6 +43,7 @@ export default class App extends React.Component {
             returnKeyType={"done"}
             autoCorrect={false} // 자동완성
             onSubmitEditing={this._addToDo} // 완료 눌렀을 때
+            autoFocus={true}
           />
           <ScrollView contentContainerStyle={styles.toDos}>
             {Object.values(toDos)

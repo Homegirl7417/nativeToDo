@@ -49,6 +49,7 @@ export default class ToDo extends React.Component {
                                 onChangeText={this._controllInput}
                                 returnKeyType={"done"}
                                 onBlur={this._finishEditing}
+                                autoFocus={true}
                             />
                         ) : (
                             <Text 
