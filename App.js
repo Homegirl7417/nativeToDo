@@ -43,7 +43,8 @@ export default class App extends React.Component {
             returnKeyType={"done"}
             autoCorrect={false} // 자동완성
             onSubmitEditing={this._addToDo} // 완료 눌렀을 때
-            autoFocus={true}
+            autoFocus={true} // foucs 주기
+            underlineColorAndroid={"transparent"} // only Android, 밑줄 방지
           />
           <ScrollView contentContainerStyle={styles.toDos}>
             {Object.values(toDos)
@@ -207,6 +208,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomColor: "#bbb",
     borderBottomWidth: 1,
+    fontSize: 25
   },
   toDos: {
     alignItems: "center"
